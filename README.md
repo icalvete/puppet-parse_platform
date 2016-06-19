@@ -2,6 +2,8 @@
 
 Puppet manifest to install and configure a Parse Platform server
 
+[![Build Status](https://secure.travis-ci.org/icalvete/puppet-parse_platform.png)](http://travis-ci.org/icalvete/puppet-parse_platform)
+
 See [parse site](https://parse.com/)
 
 * https://github.com/icalvete/puppet-nodejs
