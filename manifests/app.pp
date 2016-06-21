@@ -1,16 +1,22 @@
 define  parse_platform::app (
-  
+
   $app_name       = $name,
   $application_id = undef,
   $master_key     = undef,
-  $port           = 1337
+  $port           = 1337,
+  $cloud_code     = false
 
 ) {
+
+  if $cloud_code {
+    warning("cloud_code enabled.")
+    warning("Put your code on ${parse_platform::params::parse_root}/${app_name}/cloud.")
+  }
 
   include parse_platform
 
   validate_string($application_id)
-  
+
   if $master_key == undef {
     fail('master_key must be a string')
   }
@@ -23,6 +29,15 @@ define  parse_platform::app (
     owner  => 'root',
     group  => 'root',
     mode   => '0755',
+  }
+
+  file { "parse_cloud_${app_name}":
+    ensure => directory,
+    path   => "${parse_platform::params::parse_root}/${app_name}/cloud",
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+    require => File["parse_root_${app_name}"]
   }
 
   file{"parse_config_${app_name}":

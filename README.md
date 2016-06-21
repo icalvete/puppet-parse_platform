@@ -11,6 +11,11 @@ See [parse site](https://parse.com/)
 
 ##Example:
 
+Two app running on one server. 
+
+The second one with cloud code enabled. 
+
+**You should put cloud code on /srv/app2/cloud.**
 
 ```puppet
 
@@ -26,7 +31,8 @@ node 'ubuntu01.smartpurposes.net' inherits test_defaults {
   parse_platform::app {'app2':
     application_id => '222',
     master_key     => '222',
-    port           => 1338
+    port           => 1338,
+    cloud_code     => true
   }
 
 	        
