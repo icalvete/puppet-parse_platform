@@ -13,14 +13,22 @@ See [parse site](https://parse.com/)
 
 
 ```puppet
+
 node 'ubuntu01.smartpurposes.net' inherits test_defaults {
   include roles::puppet_agent
   include nodejs
 
-  class {'parse_platform':
-    application_id => 'your_id',
-    master_key     => 'your_key',
+  parse_platform::app {'app1':
+    application_id => '111',
+    master_key     => '111'
   }
+
+  parse_platform::app {'app2':
+    application_id => '222',
+    master_key     => '222',
+    port           => 1338
+  }
+
 	        
 ```
 
