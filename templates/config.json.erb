@@ -4,7 +4,7 @@
   "appId": "<%= @application_id -%>",
   "masterKey": "<%= @master_key -%>",
 <% if @cloud_code -%>
-  "cloud": "cloud/main",
+   "cloud": "<%= @parse_root -%>/<%= @app_name -%>/cloud/main.js",
 <% end -%>
   "port": "<%= @port -%>"
 }

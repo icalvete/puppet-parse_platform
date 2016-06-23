@@ -4,13 +4,14 @@ define  parse_platform::app (
   $application_id = undef,
   $master_key     = undef,
   $port           = 1337,
+  $parse_root     = "/srv",
   $cloud_code     = false
 
 ) {
 
   if $cloud_code {
     warning("cloud_code enabled.")
-    warning("Put your code on ${parse_platform::params::parse_root}/${app_name}/cloud.")
+    warning("Put your code on $ ${parse_root }/${app_name}/cloud.")
   }
 
   include parse_platform
@@ -25,7 +26,7 @@ define  parse_platform::app (
 
   file { "parse_root_${app_name}":
     ensure => directory,
-    path   => "${parse_platform::params::parse_root}/${app_name}",
+    path   => "${parse_root}/${app_name}",
     owner  => 'root',
     group  => 'root',
     mode   => '0755',
@@ -33,20 +34,27 @@ define  parse_platform::app (
 
   file { "parse_cloud_${app_name}":
     ensure => directory,
-    path   => "${parse_platform::params::parse_root}/${app_name}/cloud",
+    path   => "${parse_root}/${app_name}/cloud",
     owner  => 'root',
     group  => 'root',
     mode   => '0755',
     require => File["parse_root_${app_name}"]
   }
+   file{"parse_main_${app_name}":
+    path    => "${parse_root}/${app_name}/cloud/main.js",
+    content => template("${module_name}/main.js.erb"),
+    mode    => '0644',
+    require => File["${parse_root}/${app_name}/cloud"]
+  }
 
   file{"parse_config_${app_name}":
-    path    => "${parse_platform::params::parse_root}/${app_name}/config.json",
+    path    => "${parse_root}/${app_name}/config.json",
     content => template("${module_name}/config.json.erb"),
     mode    => '0644',
     require => File["parse_root_${app_name}"]
   }
-
+  
+  
   upstart::job { "parse-server_${app_name}":
     description         => "parse-server_${$app_name}",
     start_on            => 'runlevel [2345]',
@@ -59,7 +67,7 @@ define  parse_platform::app (
       'APPLICATION_ENV' => $environment
     },
     script              => "
-    exec /usr/lib/node_modules/parse-server/bin/parse-server ${parse_platform::params::parse_root}/${app_name}/config.json
+    exec /usr/lib/node_modules/parse-server/bin/parse-server ${parse_root}/${app_name}/config.json
     ",
   }
 }
