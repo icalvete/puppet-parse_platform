@@ -1,0 +1,10 @@
+{
+  "appName": "<%= @app_name -%>",
+  "databaseURI": "mongodb://localhost:27017/dev",
+  "appId": "<%= @application_id -%>",
+  "masterKey": "<%= @master_key -%>",
+<% if @cloud_code -%>
+  "cloud": "cloud/main",
+<% end -%>
+  "port": "<%= @port -%>"
+}

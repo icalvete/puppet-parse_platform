@@ -1,17 +1,4 @@
-class parse_platform (
-
-  $application_id = undef,
-  $master_key     = undef
-
-) inherits parse_platform::params {
-
-  if $application_id == undef {
-    fail('application_id must be a string')
-  }
-  
-  if $master_key == undef {
-    fail('master_key must be a string')
-  }
+class parse_platform () inherits parse_platform::params {
 
   anchor {'parse_platform::begin':
     before => Class['parse_platform::install']

@@ -11,16 +11,30 @@ See [parse site](https://parse.com/)
 
 ##Example:
 
+Two app running on one server. 
+
+The second one with cloud code enabled. 
+
+**You should put cloud code on /srv/app2/cloud.**
 
 ```puppet
+
 node 'ubuntu01.smartpurposes.net' inherits test_defaults {
   include roles::puppet_agent
   include nodejs
 
-  class {'parse_platform':
-    application_id => 'your_id',
-    master_key     => 'your_key',
+  parse_platform::app {'app1':
+    application_id => '111',
+    master_key     => '111'
   }
+
+  parse_platform::app {'app2':
+    application_id => '222',
+    master_key     => '222',
+    port           => 1338,
+    cloud_code     => true
+  }
+
 	        
 ```
 
