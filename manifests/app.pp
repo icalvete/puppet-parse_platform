@@ -5,21 +5,30 @@ define  parse_platform::app (
   $master_key       = undef,
   $port             = 1337,
   $cloud_code       = false,
-  $database_URI     = undef,
+  $database_URI     = 'mongodb://localhost:27017/test',
   $cloud_repository = undef,
-  $parse_root       = undef
+  $parse_root       = '/srv'
 ) {
 
+  $cloud_code_path = "${parse_root}/${app_name}/cloud"
+
   if $cloud_code {
-    warning("cloud_code enabled.")
-    warning("Put your code on $ ${parse_root }/${app_name}/cloud.")
+
+    if $cloud_repository != undef {
+
+      vcsrepo { $cloud_code_path:
+        ensure   => present,
+        provider => git,
+        source   => $cloud_repository
+      }
+    } else {
+
+      warning("cloud_code enabled.")
+      warning("Put your code on $ ${parse_root }/${app_name}/cloud.")
+    }
   }
 
-  include parse_platform
-
-  if $app_name == undef {
-    fail('app_name must be a string')
-  }
+  include parse_platform::server
 
   if $application_id == undef {
     fail('application_id must be a string')
@@ -30,10 +39,6 @@ define  parse_platform::app (
   }
 
   validate_integer($port)
-
-  if $database_URI == undef {
-    warning('databaseURI not specified, falling back to localhost.')
-  }
 
   validate_absolute_path($parse_root)
 
@@ -47,7 +52,7 @@ define  parse_platform::app (
 
   file { "parse_cloud_${app_name}":
     ensure => directory,
-    path   => "${parse_root}/${app_name}/cloud",
+    path   => $cloud_code_path,
     owner  => 'root',
     group  => 'root',
     mode   => '0755',

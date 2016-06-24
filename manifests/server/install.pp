@@ -1,4 +1,4 @@
-class parse_platform::install {
+class parse_platform::server::install {
 
   package { 'parse-server':
     provider => 'npm',
