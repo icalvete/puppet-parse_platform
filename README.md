@@ -8,12 +8,13 @@ See [parse site](https://parse.com/)
 
 * https://github.com/icalvete/puppet-nodejs
 * https://github.com/Spantree/puppet-upstart
+* https://github.com/puppetlabs/puppetlabs-vcsrepo
 
 ##Example:
 
 Two app running on one server. 
 
-The second one with cloud code enabled. 
+The second one with cloud code and dashboard enabled. 
 
 **You should put cloud code on /srv/app2/cloud.**
 
@@ -29,10 +30,16 @@ node 'ubuntu01.smartpurposes.net' inherits test_defaults {
   }
 
   parse_platform::app {'app2':
-    application_id => '222',
-    master_key     => '222',
-    port           => 1338,
-    cloud_code     => true
+    application_id   => '222',
+    master_key       => '222',
+    port             => 1338,
+    cloud_code       => true,
+    cloud_repository => 'https://github.com/Npmorales/Cloud_code.git',
+    dashboard        => true,
+    javascript_key   => '222',
+    rest_key         => '222',
+    dashboard_user   => 'user',
+    dashboard_pass   => 'pass',
   }
 
 	        
