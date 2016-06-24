@@ -1,15 +1,21 @@
 define  parse_platform::app (
 
-  $app_name         = $name,
-  $application_id   = undef,
-  $master_key       = undef,
-  $port             = 1337,
-  $cloud_code       = false,
-  $database_URI     = 'mongodb://localhost:27017/test',
-  $cloud_repository = undef,
-  $parse_root       = '/srv'
+  $app_name          = $name,
+  $application_id    = undef,
+  $master_key        = undef,
+  $database_uri      = 'mongodb://localhost:27017/test',
+  $port              = 1337,
+  $cloud_code        = false,
+  $cloud_repository  = undef,
+  $parse_root        = '/srv',
+  $file_key          = undef,
+  $javascript_key    = undef,
+  $rest_key          = undef,
+  $client_key        = undef,
+  $public_url_schema = 'http',
 ) {
 
+  $public_url      = "${public_url_schema}//${::ipaddress}:${port}/parse"
   $cloud_code_path = "${parse_root}/${app_name}/cloud"
 
   if $cloud_code {
