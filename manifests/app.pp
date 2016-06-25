@@ -3,7 +3,7 @@ define  parse_platform::app (
   $app_name          = $name,
   $application_id    = undef,
   $master_key        = undef,
-  $database_uri      = 'mongodb://localhost:27017/test',
+  $database_uri      = "mongodb://localhost:27017/${name}",
   $port              = 1337,
   $cloud_code        = false,
   $cloud_repository  = undef,
@@ -38,8 +38,10 @@ define  parse_platform::app (
       }
     } else {
 
-      warning("cloud_code enabled.")
-      warning("Put your code on $ ${parse_root }/${app_name}/cloud.")
+      warning("############################################################")
+      warning("### cloud_code enabled. ###")
+      warning("### Put your code on $ ${parse_root }/${app_name}/cloud. ###")
+      warning("############################################################")
     }
   }
 
