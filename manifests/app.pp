@@ -39,8 +39,8 @@ define  parse_platform::app (
     } else {
 
       warning("############################################################")
-      warning("### cloud_code enabled. ###")
-      warning("### Put your code on $ ${parse_root }/${app_name}/cloud. ###")
+      warning("### CLOUD CODE enabled.                                  ###")
+      warning("### Put your code on ${parse_root}/${app_name}/cloud.                    ###")
       warning("############################################################")
     }
   }
