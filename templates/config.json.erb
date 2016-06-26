@@ -1,14 +1,25 @@
 {
   "appName": "<%= @app_name -%>",
-<% if @database_URI = "undef" -%>
-  "databaseURI": "mongodb://localhost:27017/dev",
-<% elsif -%>
-  "databaseURI": "<%= @database_URI -%>",
-<% end -%>
   "appId": "<%= @application_id -%>",
   "masterKey": "<%= @master_key -%>",
+  "databaseURI": "<%= @database_uri -%>",
+  "port": "<%= @port -%>",
 <% if @cloud_code -%>
   "cloud": "<%= @parse_root -%>/<%= @app_name -%>/cloud/main.js",
 <% end -%>
-  "port": "<%= @port -%>"
+<% if @file_key -%>
+  "fileKey": "<%= @file_key -%>",
+<% end -%>
+<% if @javascript_key -%>
+  "javascriptKey": "<%= @javascript_key -%>",
+<% end -%>
+<% if @rest_key -%>
+  "restAPIKey": "<%= @rest_key -%>",
+<% end -%>
+<% if @client_key -%>
+  "clientKey": "<%= @client_key -%>",
+<% end -%>
+<% if @public_url -%>
+  "publicServerURL$": "<%= @public_url -%>",
+<% end -%>
 }
