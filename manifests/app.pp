@@ -97,6 +97,7 @@ define  parse_platform::app (
     script              => "
     exec /usr/bin/parse-server ${parse_root}/${app_name}/config.json
     ",
+    require             => Class['parse_platform::server::install']
   }
 
   if $dashboard {
@@ -140,6 +141,7 @@ define  parse_platform::app (
       script              => "
       exec /usr/bin/parse-dashboard --port ${$dashboard_port} --config ${parse_root}/${app_name}/dashboard_config.json --allowInsecureHTTP
       ",
+      require             => Class['parse_platform::dashboard::install']
     }
   }
 }
