@@ -106,15 +106,15 @@ define  parse_platform::app (
     if $dashboard_user == undef {
       fail('if $dashboard, $dashboard_user must be a string')
     }
-  
+
     if $dashboard_pass == undef {
       fail('if $dashboard, $dashboard_pass must be a string')
     }
-  
+
     if $javascript_key == undef {
       fail('if $dashboard, $javascript_key must be a string')
     }
-  
+
     if $rest_key == undef {
       fail('if $dashboard, $rest_key must be a string')
     }
