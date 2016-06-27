@@ -12,7 +12,7 @@ define  parse_platform::app (
   $javascript_key    = undef,
   $rest_key          = undef,
   $client_key        = undef,
-  $public_url_schema = 'https',
+  $public_url_schema = 'http',
   $dashboard         = false,
   $dashboard_port    = 4040,
   $dashboard_user    = undef,
