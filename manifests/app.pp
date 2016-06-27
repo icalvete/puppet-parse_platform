@@ -19,7 +19,7 @@ define  parse_platform::app (
   $dashboard_pass    = undef
 ) {
 
-  $public_url      = "${public_url_schema}//${::ipaddress}:${port}/parse"
+  $public_url      = "${public_url_schema}://${::ipaddress}:${port}/parse"
   $cloud_code_path = "${parse_root}/${app_name}/cloud"
 
   validate_integer($port)
@@ -98,34 +98,34 @@ define  parse_platform::app (
     exec /usr/bin/parse-server ${parse_root}/${app_name}/config.json
     ",
   }
-  
+
   if $dashboard {
-  
+
     include parse_platform::dashboard
-    
+
     if $dashboard_user == undef {
       fail('if $dashboard, $dashboard_user must be a string')
     }
-    
+  
     if $dashboard_pass == undef {
       fail('if $dashboard, $dashboard_pass must be a string')
     }
-    
+  
     if $javascript_key == undef {
       fail('if $dashboard, $javascript_key must be a string')
     }
-    
+  
     if $rest_key == undef {
       fail('if $dashboard, $rest_key must be a string')
     }
-  
+
     file{"parse_dashboard_config_${app_name}":
       path    => "${parse_root}/${app_name}/dashboard_config.json",
       content => template("${module_name}/dashboard_config.json.erb"),
       mode    => '0644',
       require => File["parse_root_${app_name}"]
     }
-  
+
     upstart::job { "parse-dashboard_${app_name}":
       description         => "parse-dashboard_${$app_name}",
       start_on            => 'runlevel [2345]',
