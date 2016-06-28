@@ -1,25 +1,36 @@
 define  parse_platform::app (
 
-  $app_name          = $name,
-  $application_id    = undef,
-  $master_key        = undef,
-  $database_uri      = "mongodb://localhost:27017/${name}",
-  $port              = 1337,
-  $cloud_code        = false,
-  $cloud_repository  = undef,
-  $parse_root        = '/srv',
-  $file_key          = undef,
-  $javascript_key    = undef,
-  $rest_key          = undef,
-  $client_key        = undef,
-  $public_url_schema = 'http',
-  $dashboard         = false,
-  $dashboard_port    = 4040,
-  $dashboard_user    = undef,
-  $dashboard_pass    = undef
+  $app_name               = $name,
+  $application_id         = undef,
+  $master_key             = undef,
+  $database_uri           = "mongodb://localhost:27017/${name}",
+  $port                   = 1337,
+  $cloud_code             = false,
+  $cloud_repository       = undef,
+  $parse_root             = '/srv',
+  $file_key               = undef,
+  $javascript_key         = undef,
+  $rest_key               = undef,
+  $client_key             = undef,
+  $public_url_schema      = 'http',
+  $public_ip              = $::ipaddress,
+  $dashboard              = false,
+  $dashboard_port         = 4040,
+  $dashboard_user         = undef,
+  $dashboard_pass         = undef,
+  $aws_s3                 = false,
+  $aws_s3_access_key      = undef,
+  $aws_s3_secret_key      = undef,
+  $aws_s3_bucket          = undef,
+  $aws_s3_region          = 'eu-west-1',
+  $aws_s3_bucket_prefix   = '',
+  $aws_s3_direct_access   = false,
+  $aws_s3_base_url        = '',
+  $aws_s3_base_url_direct = false,
+
 ) {
 
-  $public_url      = "${public_url_schema}://${::ipaddress}:${port}/parse"
+  $public_url      = "${public_url_schema}://${$public_ip}:${port}/parse"
   $cloud_code_path = "${parse_root}/${app_name}/cloud"
 
   validate_integer($port)
@@ -45,6 +56,21 @@ define  parse_platform::app (
     }
   }
 
+  if $aws_s3 {
+
+    if $aws_s3_access_key == undef {
+      fail('AWS S3 enabled. $aws_s3_access_key can\'t be undef')
+    }
+
+    if $aws_s3_secret_key == undef {
+      fail('AWS S3 enabled. $aws_s3_secret_key can\'t be undef')
+    }
+
+    if $aws_s3_bucket == undef {
+      fail('AWS S3 enabled. $aws_s3_bucket can\'t be undef')
+    }
+  }
+
   include parse_platform::server
 
   if $application_id == undef {
@@ -54,8 +80,6 @@ define  parse_platform::app (
   if $master_key == undef {
     fail('master_key must be a string')
   }
-
-  validate_integer($port)
 
   validate_absolute_path($parse_root)
 
@@ -80,7 +104,8 @@ define  parse_platform::app (
     path    => "${parse_root}/${app_name}/config.json",
     content => template("${module_name}/config.json.erb"),
     mode    => '0644',
-    require => File["parse_root_${app_name}"]
+    require => File["parse_root_${app_name}"],
+    notify  => Upstart::Job["parse-server_${app_name}"]
   }
 
   upstart::job { "parse-server_${app_name}":
@@ -124,7 +149,8 @@ define  parse_platform::app (
       path    => "${parse_root}/${app_name}/dashboard_config.json",
       content => template("${module_name}/dashboard_config.json.erb"),
       mode    => '0644',
-      require => File["parse_root_${app_name}"]
+      require => File["parse_root_${app_name}"],
+      notify  => Upstart::Job["parse-dashboard_${app_name}"]
     }
 
     upstart::job { "parse-dashboard_${app_name}":
