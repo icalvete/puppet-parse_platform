@@ -27,6 +27,10 @@ define  parse_platform::app (
   $aws_s3_direct_access   = false,
   $aws_s3_base_url        = '',
   $aws_s3_base_url_direct = false,
+  $mailgun                = false,
+  $mailgun_from_address   = undef,
+  $mailgun_domain         = undef,
+  $mailgun_api_key        = undef
 
 ) {
 
@@ -68,6 +72,21 @@ define  parse_platform::app (
 
     if $aws_s3_bucket == undef {
       fail('AWS S3 enabled. $aws_s3_bucket can\'t be undef')
+    }
+  }
+
+  if $mailgun {
+
+    if $mailgun_from_address == undef {
+      fail('Mailgun enabled. $mailgun_from_address can\'t be undef')
+    }
+
+    if $mailgun_domain == undef {
+      fail('Mailgun enabled. $mailgun_domain can\'t be undef')
+    }
+
+    if $mailgun_api_key  == undef {
+      fail('Mailgun enabled. $mailgun_api_key can\'t be undef')
     }
   }
 
@@ -120,6 +139,7 @@ define  parse_platform::app (
       'APPLICATION_ENV' => $environment
     },
     script              => "
+    sleep 10
     exec /usr/bin/parse-server ${parse_root}/${app_name}/config.json
     ",
     require             => Class['parse_platform::server::install']
@@ -165,6 +185,7 @@ define  parse_platform::app (
         'APPLICATION_ENV' => $environment
       },
       script              => "
+      sleep 12
       exec /usr/bin/parse-dashboard --port ${$dashboard_port} --config ${parse_root}/${app_name}/dashboard_config.json --allowInsecureHTTP
       ",
       require             => Class['parse_platform::dashboard::install']

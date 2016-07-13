@@ -36,5 +36,16 @@
     }
   },
 <% end -%>
+<% if @mailgun -%>
+  "verifyUserEmails": true,
+  "emailAdapter": {
+    "module": "parse-server-simple-mailgun-adapter",
+    "options": {
+      "fromAddress": "<%= @mailgun_from_address -%>",
+      "domain": "<%= @mailgun_domain -%>",
+      "apiKey": "<%= @mailgun_api_key -%>"
+    }
+  },
+<% end -%>
   "appName": "<%= @app_name -%>"
 }
