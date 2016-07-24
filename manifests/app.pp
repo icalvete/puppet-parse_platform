@@ -18,6 +18,7 @@ define  parse_platform::app (
   $dashboard_port         = 4040,
   $dashboard_user         = undef,
   $dashboard_pass         = undef,
+  $dashboard_public_ip    = undef,
   $aws_s3                 = false,
   $aws_s3_access_key      = undef,
   $aws_s3_secret_key      = undef,
@@ -34,8 +35,13 @@ define  parse_platform::app (
 
 ) {
 
-  $public_url      = "${public_url_schema}://${$public_ip}:${port}/parse"
-  $cloud_code_path = "${parse_root}/${app_name}/cloud"
+  if $dashboard_public_ip == undef {
+    $dashboard_public_ip = $public_ip
+  }
+
+  $public_url           = "${public_url_schema}://${public_ip}:${port}/parse"
+  $dashboard_public_url = "${public_url_schema}://${dashboard_public_ip}:${port}/parse"
+  $cloud_code_path      = "${parse_root}/${app_name}/cloud"
 
   validate_integer($port)
   validate_integer($dashboard_port)
