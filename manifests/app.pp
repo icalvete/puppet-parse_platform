@@ -47,9 +47,10 @@ define  parse_platform::app (
     if $cloud_repository != undef {
 
       vcsrepo { $cloud_code_path:
-        ensure   => present,
+        ensure   => latest,
         provider => git,
-        source   => $cloud_repository
+        source   => $cloud_repository,
+        revision => 'master',
       }
     } else {
 
