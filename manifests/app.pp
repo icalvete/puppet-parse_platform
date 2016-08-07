@@ -1,6 +1,7 @@
 define  parse_platform::app (
 
   $app_name               = $name,
+  $application_name       = $name,
   $application_id         = undef,
   $master_key             = undef,
   $database_uri           = "mongodb://localhost:27017/${name}",
