@@ -3,7 +3,7 @@
   "masterKey": "<%= @master_key -%>",
   "databaseURI": "<%= @database_uri -%>",
   "port": "<%= @port -%>",
-  "mountPath": "<%= @mount_path -%>",
+  "mountPath": "/<%= @mount_path -%>",
 <% if @cloud_code -%>
   "cloud": "<%= @parse_root -%>/<%= @app_name -%>/cloud/main.js",
 <% end -%>
