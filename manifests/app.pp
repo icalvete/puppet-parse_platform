@@ -6,6 +6,7 @@ define  parse_platform::app (
   $master_key             = undef,
   $database_uri           = "mongodb://localhost:27017/${name}",
   $port                   = 1337,
+  $mount_path             = 'parse',
   $cloud_code             = false,
   $cloud_repository       = undef,
   $parse_root             = '/srv',
@@ -20,6 +21,7 @@ define  parse_platform::app (
   $dashboard_user         = undef,
   $dashboard_pass         = undef,
   $dashboard_public_ip    = undef,
+  $dashboard_public_port  = 1337,
   $aws_s3                 = false,
   $aws_s3_access_key      = undef,
   $aws_s3_secret_key      = undef,
@@ -40,8 +42,8 @@ define  parse_platform::app (
     $dashboard_public_ip = $public_ip
   }
 
-  $public_url           = "${public_url_schema}://${public_ip}:${port}/parse"
-  $dashboard_public_url = "${public_url_schema}://${dashboard_public_ip}:${port}/parse"
+  $public_url           = "${public_url_schema}://${public_ip}:${port}/${mount_path}"
+  $dashboard_public_url = "${public_url_schema}://${dashboard_public_ip}:${dashboard_public_port}/${mount_path}"
   $cloud_code_path      = "${parse_root}/${app_name}/cloud"
 
   validate_integer($port)
