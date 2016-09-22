@@ -16,6 +16,7 @@ define  parse_platform::app (
   $client_key             = undef,
   $public_url_schema      = 'http',
   $public_ip              = $::ipaddress,
+  $public_port            = $port,
   $dashboard              = false,
   $dashboard_port         = 4040,
   $dashboard_user         = undef,
@@ -42,14 +43,20 @@ define  parse_platform::app (
     $dashboard_public_ip = $public_ip
   }
 
-  $public_url           = "${public_url_schema}://${public_ip}:${port}/${mount_path}"
+  $public_url           = "${public_url_schema}://${public_ip}:${public_port}/${mount_path}"
   $dashboard_public_url = "${public_url_schema}://${dashboard_public_ip}:${dashboard_public_port}/${mount_path}"
   $cloud_code_path      = "${parse_root}/${app_name}/cloud"
 
   validate_integer($port)
   validate_integer($dashboard_port)
+  validate_integer($public_port)
+  validate_integer($dashboard_public_port)
   validate_bool($cloud_code)
   validate_bool($dashboard)
+  validate_bool($aws_s3)
+  validate_bool($aws_s3_direct_access)
+  validate_bool($aws_s3_base_url_direct)
+  validate_bool($mailgun)
 
   if $cloud_code {
 
