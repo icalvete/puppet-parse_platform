@@ -6,6 +6,8 @@ Puppet manifest to install and configure a Parse Platform server
 
 See [parse site](https://parse.com/)
 
+##Requires:
+
 * https://github.com/icalvete/puppet-nodejs
 * https://github.com/Spantree/puppet-upstart
 * https://github.com/puppetlabs/puppetlabs-vcsrepo
