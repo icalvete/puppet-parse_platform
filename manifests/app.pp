@@ -49,7 +49,6 @@ define  parse_platform::app (
 
   validate_integer($port)
   validate_integer($dashboard_port)
-  validate_integer($public_port)
   validate_integer($dashboard_public_port)
   validate_bool($cloud_code)
   validate_bool($dashboard)
