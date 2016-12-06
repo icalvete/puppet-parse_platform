@@ -7,6 +7,7 @@ define  parse_platform::app (
   $database_uri           = "mongodb://localhost:27017/${name}",
   $port                   = 1337,
   $mount_path             = 'parse',
+  $session_length         = 31536000,
   $cloud_code             = false,
   $cloud_repository       = undef,
   $parse_root             = '/srv',
@@ -48,6 +49,7 @@ define  parse_platform::app (
   $cloud_code_path      = "${parse_root}/${app_name}/cloud"
 
   validate_integer($port)
+  validate_integer($session_length)
   validate_integer($dashboard_port)
   validate_integer($dashboard_public_port)
   validate_bool($cloud_code)
