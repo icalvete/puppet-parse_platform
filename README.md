@@ -6,13 +6,13 @@ Puppet manifest to install and configure a Parse Platform server
 
 See [parse site](https://parse.com/)
 
-##Requires:
+## Requires:
 
 * https://github.com/icalvete/puppet-nodejs
 * https://github.com/Spantree/puppet-upstart
 * https://github.com/puppetlabs/puppetlabs-vcsrepo
 
-##Example:
+## Example:
 
 Two app running on one server. 
 
@@ -47,6 +47,6 @@ node 'ubuntu01.smartpurposes.net' inherits test_defaults {
 	        
 ```
 
-##Authors:
+## Authors:
 
 Israel Calvete Talavera <icalvete@gmail.com>
