@@ -10,6 +10,7 @@ define  parse_platform::app (
   $session_length         = 31536000,
   $cloud_code             = false,
   $cloud_repository       = undef,
+  $cloud_branch           = 'master',
   $parse_root             = '/srv',
   $file_key               = undef,
   $javascript_key         = undef,
@@ -67,7 +68,7 @@ define  parse_platform::app (
         ensure   => latest,
         provider => git,
         source   => $cloud_repository,
-        revision => 'master',
+        revision => $cloud_branch,
       }
     } else {
 
