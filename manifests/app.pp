@@ -45,11 +45,11 @@ define  parse_platform::app (
 ) {
 
   if $dashboard_public_ip == undef {
-    $dashboard_public_ip = $public_ip
+    $dashboard_public_ip_real = $public_ip
   }
 
   $public_url           = "${public_url_schema}://${public_ip}:${public_port}/${mount_path}"
-  $dashboard_public_url = "${public_url_schema}://${dashboard_public_ip}:${dashboard_public_port}/${mount_path}"
+  $dashboard_public_url = "${public_url_schema}://${dashboard_public_ip_real}:${dashboard_public_port}/${mount_path}"
   $cloud_code_path      = "${parse_root}/${app_name}/cloud"
 
   validate_integer($port)
