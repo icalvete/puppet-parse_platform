@@ -37,7 +37,10 @@ define  parse_platform::app (
   $mailgun                = false,
   $mailgun_from_address   = undef,
   $mailgun_domain         = undef,
-  $mailgun_api_key        = undef
+  $mailgun_api_key        = undef,
+  $memcached_host         = 'localhost',
+  $memcached_port         = 11211
+
 
 ) {
 
@@ -155,7 +158,8 @@ define  parse_platform::app (
     chdir               => '/tmp',
     env                 => {
       'PATH'            => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
-      'APPLICATION_ENV' => $environment
+      'APPLICATION_ENV' => $environment,
+      'MEMCACHED_IP'    => "${memcached_host}:${memcached_port}"
     },
     script              => "
     sleep 10
