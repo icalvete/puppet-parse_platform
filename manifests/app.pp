@@ -46,6 +46,8 @@ define  parse_platform::app (
 
   if $dashboard_public_ip == undef {
     $dashboard_public_ip_real = $public_ip
+  } else {
+    $dashboard_public_ip_real = $dashboard_public_ip
   }
 
   $public_url           = "${public_url_schema}://${public_ip}:${public_port}/${mount_path}"
