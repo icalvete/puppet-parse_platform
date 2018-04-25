@@ -152,22 +152,23 @@ define  parse_platform::app (
   }
 
   upstart::job { "parse-server_${app_name}":
-    description         => "parse-server_${$app_name}",
-    start_on            => 'runlevel [2345]',
-    stop_on             => 'runlevel [016]',
-    respawn             => true,
-    respawn_limit       => '5 10',
-    chdir               => '/tmp',
-    env                 => {
+    description   => "parse-server_${$app_name}",
+    start_on      => 'runlevel [2345]',
+    stop_on       => 'runlevel [016]',
+    respawn       => true,
+    respawn_limit => '5 10',
+    chdir         => '/tmp',
+    env           => {
       'PATH'            => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
       'APPLICATION_ENV' => $environment,
       'MEMCACHED_IP'    => "${memcached_host}:${memcached_port}"
     },
-    script              => "
+    script        => "
     sleep 10
     exec /usr/bin/parse-server ${parse_root}/${app_name}/config.json
     ",
-    require             => Class['parse_platform::server::install']
+    expect        => '',
+    require       => Class['parse_platform::server::install']
   }
 
   if $dashboard {
@@ -213,6 +214,7 @@ define  parse_platform::app (
       sleep 12
       exec /usr/bin/parse-dashboard --port ${$dashboard_port} --config ${parse_root}/${app_name}/dashboard_config.json --allowInsecureHTTP
       ",
+      expect              => '',
       require             => Class['parse_platform::dashboard::install']
     }
   }
